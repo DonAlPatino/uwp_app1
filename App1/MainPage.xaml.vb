@@ -1,7 +1,7 @@
-﻿' The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+﻿' Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
 
 ''' <summary>
-''' An empty page that can be used on its own or navigated to within a Frame.
+''' Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
 ''' </summary>
 Public NotInheritable Class MainPage
     Inherits Page

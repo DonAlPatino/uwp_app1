@@ -1,66 +1,64 @@
 ﻿''' <summary>
-''' Provides application-specific behavior to supplement the default Application class.
+''' Обеспечивает зависящее от конкретного приложения поведение, дополняющее класс Application по умолчанию.
 ''' </summary>
 NotInheritable Class App
     Inherits Application
 
     ''' <summary>
-    ''' Invoked when the application is launched normally by the end user.  Other entry points
-    ''' will be used when the application is launched to open a specific file, to display
-    ''' search results, and so forth.
+    ''' Вызывается при обычном запуске приложения пользователем.  Будут использоваться другие точки входа,
+    ''' если приложение запускается для открытия конкретного файла, отображения
+    ''' результатов поиска и т. д.
     ''' </summary>
-    ''' <param name="e">Details about the launch request and process.</param>
+    ''' <param name="e">Сведения о запросе и обработке запуска.</param>
     Protected Overrides Sub OnLaunched(e As Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)
         Dim rootFrame As Frame = TryCast(Window.Current.Content, Frame)
 
-        ' Do not repeat app initialization when the Window already has content,
-        ' just ensure that the window is active
+        ' Не повторяйте инициализацию приложения, если в окне уже имеется содержимое,
+        ' только обеспечьте активность окна
 
         If rootFrame Is Nothing Then
-            ' Create a Frame to act as the navigation context and navigate to the first page
+            ' Создание фрейма, который станет контекстом навигации, и переход к первой странице
             rootFrame = New Frame()
 
             AddHandler rootFrame.NavigationFailed, AddressOf OnNavigationFailed
 
-            If e.PreviousExecutionState = ApplicationExecutionState.Terminated Then
-                ' TODO: Load state from previously suspended application
+            If (e.PreviousExecutionState <> ApplicationExecutionState.Running) Then
+                Window.Current.Content = New ExtendedSplash(e.SplashScreen)
             End If
-            ' Place the frame in the current Window
-            Window.Current.Content = rootFrame
         End If
 
         If e.PrelaunchActivated = False Then
             If rootFrame.Content Is Nothing Then
-                ' When the navigation stack isn't restored navigate to the first page,
-                ' configuring the new page by passing required information as a navigation
-                ' parameter
+                ' Если стек навигации не восстанавливается для перехода к первой странице,
+                ' настройка новой страницы путем передачи необходимой информации в качестве параметра
+                ' параметр
                 rootFrame.Navigate(GetType(MainPage), e.Arguments)
             End If
 
-            ' Ensure the current window is active
+            ' Обеспечение активности текущего окна
             Window.Current.Activate()
         End If
     End Sub
 
     ''' <summary>
-    ''' Invoked when Navigation to a certain page fails
+    ''' Вызывается в случае сбоя навигации на определенную страницу
     ''' </summary>
-    ''' <param name="sender">The Frame which failed navigation</param>
-    ''' <param name="e">Details about the navigation failure</param>
+    ''' <param name="sender">Фрейм, для которого произошел сбой навигации</param>
+    ''' <param name="e">Сведения о сбое навигации</param>
     Private Sub OnNavigationFailed(sender As Object, e As NavigationFailedEventArgs)
         Throw New Exception("Failed to load Page " + e.SourcePageType.FullName)
     End Sub
 
     ''' <summary>
-    ''' Invoked when application execution is being suspended.  Application state is saved
-    ''' without knowing whether the application will be terminated or resumed with the contents
-    ''' of memory still intact.
+    ''' Вызывается при приостановке выполнения приложения.  Состояние приложения сохраняется
+    ''' без учета информации о том, будет ли оно завершено или возобновлено с неизменным
+    ''' содержимым памяти.
     ''' </summary>
-    ''' <param name="sender">The source of the suspend request.</param>
-    ''' <param name="e">Details about the suspend request.</param>
+    ''' <param name="sender">Источник запроса приостановки.</param>
+    ''' <param name="e">Сведения о запросе приостановки.</param>
     Private Sub OnSuspending(sender As Object, e As SuspendingEventArgs) Handles Me.Suspending
         Dim deferral As SuspendingDeferral = e.SuspendingOperation.GetDeferral()
-        ' TODO: Save application state and stop any background activity
+        ' TODO: Сохранить состояние приложения и остановить все фоновые операции
         deferral.Complete()
     End Sub
 
